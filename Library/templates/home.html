@@ -1,0 +1,37 @@
+<html>
+    <head> 
+        <title> Library Page  </title>
+    </head>
+    <style>
+        body {
+            background-color: lavender;
+          }
+    </style>
+    
+    <body>
+        <h1> Library Application </h1><br>
+        <form action="{% url 'home_page' %}" method="post">
+            {% csrf_token %}  
+            {%if single_book %}
+                ID:-   <input type="number" name="book_id" value="{{single_book.id}}" readonly><br><br>
+            {% endif %}
+            Name:-     <input type="text" name="Book_name" value={{single_book.name}}><br><br>
+            Quantity:- <input type="number" name="Book_qty" value={{single_book.qty}}><br><br>
+            Price :-   <input type="number" name="Book_price" value={{single_book.price}}><br><br>
+            Author :-  <input type="text" name="Book_author" value={{single_book.author}}><br><br>
+            
+            <input background-color='red' type= "submit" class= 'btn btn-primary' value = 'submit'><br>
+        
+        </form>
+        {% comment %} <a href="{% url 'show_books' %}" > Show Book </a><br><br>  {% endcomment %}
+
+    <a href="{% url 'show_books' %}"> Show Active Books </a><br><br>
+    <a href="{% url 'all_inactive_books' %}"> Show In-Active Books </a><br><br>  <!-- 3 -->
+    <a href="{% url 'logout_user' %}"> Logout </a>  <!-- 3 -->
+
+    </body>
+   
+
+
+
+</html>

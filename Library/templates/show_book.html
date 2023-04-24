@@ -1,0 +1,80 @@
+<html>
+    <head>
+        <title> Show Books </title>    
+    </head>
+    <style>
+        table, th, td {
+            border: 1px solid black;
+        }
+        body{
+            background-color: lavender;
+        }
+    </style>
+    <body>
+    <table>
+        <form> 
+        <h1 text align="center"> Books details </h1>
+        <tr>
+            <th> Book ID </th>
+            <th> Book Name </th>
+            <th> Book Quantity </th>
+            <th> Book Price </th>
+            <th> Book Author </th>
+            <th> Book is_active </th>
+            <th> Actions </th>
+        </tr><br>
+
+            {% for book in books %}
+            <tr>
+                <td>{{book.id}}</td>
+                <td>{{book.name}}</td>
+                <td>{{book.qty}}</td>
+                <td>{{book.price}}</td>
+                <td>{{book.author}}</td>
+                <td>{{book.is_active}}</td>
+                <td>
+                    {% comment %} {% if not inactive %} {% endcomment %}
+                    {% if not inactive %}
+                    <form action="{%url 'update_books' book.id %}" method='post'>
+                        {%csrf_token%}
+                        <input type = 'submit' value="Update">
+                    </form>
+
+                    <form action="{% url 'soft_delete_book' book.id %}" method="post">
+                        {% csrf_token %}
+                        <input type="submit" value="Soft Dalete">
+                    </form>
+                    
+                    {% endif %}
+
+                    <form action = "{% url 'delete_book' book.id %}" method ="post">   
+                        {% csrf_token%}
+                        <input type = 'submit' value = 'Hard Delete'>
+                    </form>
+
+                    {% if inactive %}
+                    <form action="{% url 'restore_book' book.id %}" method="post">
+                        {% csrf_token %}
+                        <input type="submit" value=" Restore ">
+                    </form>   <!-- make url for restore #1 -->
+                    {% endif %}
+
+                </td>
+            </tr>   
+            {% endfor %}
+            
+        </form>
+    </table><br>
+    
+    {% if not inactive %}
+    <a href="{% url 'all_inactive_books' %}"> Show In-Active Books </a> <br><br>
+
+    {% else %}
+    <a href="{% url 'show_books' %}"> Show Active Books </a><br><br>
+
+    {% endif %}
+
+    
+    <a href="{% url 'home_page' %}"> Home Page </a> <br><br>  
+</body>
+</html>
